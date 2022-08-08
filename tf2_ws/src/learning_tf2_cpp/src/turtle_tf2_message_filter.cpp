@@ -39,8 +39,9 @@ public:
   : Node("turtle_tf2_pose_drawer")
   {
     // Declare and acquire `target_frame` parameter
-    this->declare_parameter<std::string>("target_frame", "turtle1");
-    this->get_parameter("target_frame", target_frame_);
+    this->declare_parameter<std::string>("target_frame_1", "turtle1");
+    this->get_parameter("target_frame_1", target_frame_);
+
 
     typedef std::chrono::duration<int> seconds_type;
     seconds_type buffer_timeout(1);
@@ -55,12 +56,13 @@ public:
     tf2_listener_ =
       std::make_shared<tf2_ros::TransformListener>(*tf2_buffer_);
 
-    point_sub_.subscribe(this, "/turtle3/turtle_point_stamped");
+    point_sub_.subscribe(this, "/turtle2/turtle_point_stamped");
     tf2_filter_ = std::make_shared<tf2_ros::MessageFilter<geometry_msgs::msg::PointStamped>>(
       point_sub_, *tf2_buffer_, target_frame_, 100, this->get_node_logging_interface(),
       this->get_node_clock_interface(), buffer_timeout);
     // Register a callback with tf2_ros::MessageFilter to be called when transforms are available
     tf2_filter_->registerCallback(&PoseDrawer::msgCallback, this);
+    
   }
 
 private:
@@ -70,10 +72,35 @@ private:
     try {
       tf2_buffer_->transform(*point_ptr, point_out, target_frame_);
       RCLCPP_INFO(
-        this->get_logger(), "Point of turtle3 in frame of turtle1: x:%f y:%f z:%f\n",
+        this->get_logger(), "Point of turtle1 in frame of  turtle2 x:%f y:%f z:%f\n",
         point_out.point.x,
         point_out.point.y,
         point_out.point.z);
+    } catch (tf2::TransformException & ex) {
+      RCLCPP_WARN(
+        // Print exception which was caught
+        this->get_logger(), "Failure %s\n", ex.what());
+    }
+    try {
+      tf2_buffer_->transform(*point_ptr, point_out, target_frame_);
+      RCLCPP_INFO(
+        this->get_logger(), "Point of turtle2 in frame of turtle3 x:%f y:%f z:%f\n",
+        point_out.point.y,
+        point_out.point.z,
+        point_out.point.x);
+    } catch (tf2::TransformException & ex) {
+      RCLCPP_WARN(
+        // Print exception which was caught
+        this->get_logger(), "Failure %s\n", ex.what());
+    }
+    
+    try {
+      tf2_buffer_->transform(*point_ptr, point_out, target_frame_);
+      RCLCPP_INFO(
+        this->get_logger(), "Point of turtle3 in frame of turtle1 x:%f y:%f z:%f\n",
+        point_out.point.z,
+        point_out.point.x,
+        point_out.point.y);
     } catch (tf2::TransformException & ex) {
       RCLCPP_WARN(
         // Print exception which was caught
