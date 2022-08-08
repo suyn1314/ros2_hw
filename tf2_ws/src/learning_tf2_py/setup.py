@@ -23,6 +23,8 @@ setup(
         'console_scripts': [
                  'turtle_tf2_broadcaster = learning_tf2_py.turtle_tf2_broadcaster:main',
         	 'turtle_tf2_message_broadcaster = learning_tf2_py.turtle_tf2_message_broadcaster:main',
+        	 'turtle_tf2_message_broadcaster_1 = learning_tf2_py.turtle_tf2_message_broadcaster_1:main',
+        	 'turtle_tf2_message_broadcaster_2 = learning_tf2_py.turtle_tf2_message_broadcaster_2:main',
         ],
     },
 )
