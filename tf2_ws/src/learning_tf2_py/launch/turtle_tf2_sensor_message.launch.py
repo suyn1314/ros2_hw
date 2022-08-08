@@ -27,7 +27,7 @@ def generate_launch_description():
         Node(
             package='learning_tf2_py',
             executable='turtle_tf2_broadcaster',
-            name='broadcaster2',
+            name='broadcaster3',
             parameters=[
                 {'turtlename': 'turtle2'}
             ]
@@ -35,7 +35,7 @@ def generate_launch_description():
         Node(
             package='learning_tf2_py',
             executable='turtle_tf2_broadcaster',
-            name='broadcaster3',
+            name='broadcaster2',
             parameters=[
                 {'turtlename': 'turtle3'}
             ]
@@ -45,6 +45,18 @@ def generate_launch_description():
             package='learning_tf2_py',
             executable='turtle_tf2_message_broadcaster',
             name='message_broadcaster',
+        ),
+        
+        Node(
+            package='learning_tf2_py',
+            executable='turtle_tf2_message_broadcaster_1',
+            name='message_broadcaster_1',
+        ),
+        
+        Node(
+            package='learning_tf2_py',
+            executable='turtle_tf2_message_broadcaster_2',
+            name='message_broadcaster_2',
         ),
         
     ])
